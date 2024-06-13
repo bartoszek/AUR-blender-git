@@ -81,7 +81,8 @@ prepare() {
   cd "blender"
   # update the submodules
   git -c protocol.file.allow=always submodule update --init --recursive --remote
-  git apply -v "${srcdir}"/*.patch
+  mapfile -t patches < <(grep -E '(patch|diff)$' < <(printf "${srcdir}/%s\n" ${source[@]}))
+  git apply -v "${patches[@]}"
 }
 
 build() {
