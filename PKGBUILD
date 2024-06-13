@@ -17,7 +17,7 @@ _fragment="${FRAGMENT:-#branch=main}"
 [[ -v CUDA_ARCH ]] && _CMAKE_FLAGS+=(-DCYCLES_CUDA_BINARIES_ARCH="${CUDA_ARCH}")
 
 pkgname=blender-git
-pkgver=4.2.r133162.g447bb9a4b9c
+pkgver=4.3.r137458.g22d352daccf
 pkgrel=1
 pkgdesc="A fully integrated 3D graphics creation suite (development)"
 arch=('i686' 'x86_64')
