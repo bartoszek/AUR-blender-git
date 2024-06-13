@@ -54,7 +54,6 @@ source=("blender::git+https://github.com/blender/blender${_fragment}"
         'blender/assets::svn+https://svn.blender.org/svnroot/bf-blender/trunk/lib/assets'
         # Patches...
         '0001-Use-github.com-for-make-update-git.patch'
-        '0004-fix-opencollada-pcre.patch' #fix broken search for opencollada pcre
         )
 sha256sums=('SKIP'
             'SKIP'
@@ -62,8 +61,7 @@ sha256sums=('SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
-            '52da80b721efb6a6d579adf531640becfac1955a88857ca46ca16030a52c3b1c'
-            '6beedc541e33288a282f57cd2bd09860f333154027b6175e9f61cce49b8db5df')
+            '52da80b721efb6a6d579adf531640becfac1955a88857ca46ca16030a52c3b1c')
 
 pkgver() {
   blender_version=$(grep -Po "BLENDER_VERSION \K[0-9]{3}" "$srcdir"/blender/source/blender/blenkernel/BKE_blender_version.h)
