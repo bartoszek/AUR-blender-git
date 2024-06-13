@@ -101,7 +101,7 @@ build() {
                     -DWITH_PYTHON_SAFETY=OFF )
   fi
 
-  export CUDAHOSTCXX="$CC"
+  export CUDAHOSTCXX="$NVCC_CCBIN"
 
   _CMAKE_FLAGS+=( -DWITH_CLANG=ON \
                   -DWITH_CYCLES=ON )
