@@ -17,7 +17,7 @@ _fragment="${FRAGMENT:-#branch=main}"
 [[ -v CUDA_ARCH ]] && _CMAKE_FLAGS+=(-DCYCLES_CUDA_BINARIES_ARCH="${CUDA_ARCH}")
 
 pkgname=blender-git
-pkgver=4.3.r137458.g22d352daccf
+pkgver=4.3.r138081.gee0b7b9a954
 pkgrel=1
 pkgdesc="A fully integrated 3D graphics creation suite (development)"
 arch=('i686' 'x86_64')
@@ -85,7 +85,7 @@ prepare() {
   cd "blender"
   # update the submodules
   git -c protocol.file.allow=always submodule update --init --recursive --remote
-  mapfile -t patches < <(grep -E '(patch|diff)$' < <(printf "${srcdir}/%s\n" ${source[@]}))
+  mapfile -t patches < <(grep -Po '^.*?(patch|diff)(?=::|$)' < <(printf "${srcdir}/%s\n" ${source[@]}))
   git apply -v "${patches[@]}"
 }
 
