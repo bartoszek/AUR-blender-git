@@ -54,6 +54,8 @@ source=("blender::git+https://github.com/blender/blender${_fragment}"
         'blender/assets::svn+https://svn.blender.org/svnroot/bf-blender/trunk/lib/assets'
         # Patches...
         '0001-Use-github.com-for-make-update-git.patch'
+        'ffmpeg:7.patch::https://projects.blender.org/blender/blender/pulls/121947'
+        'ffmpeg:7-audaspace.patch::https://projects.blender.org/blender/blender/pulls/121960.diff'
         )
 sha256sums=('SKIP'
             'SKIP'
@@ -61,7 +63,9 @@ sha256sums=('SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
-            '52da80b721efb6a6d579adf531640becfac1955a88857ca46ca16030a52c3b1c')
+            '52da80b721efb6a6d579adf531640becfac1955a88857ca46ca16030a52c3b1c'
+            '17d5fb1c4ddb9e95da590d2e43ae3f7ce2b02c3ec698b16ed2752e3b3e7840c0'
+            '847ffe878ede6ecae505d29a5feba9a998e8857fe99895ed4c2da5aaab813aa8')
 
 pkgver() {
   blender_version=$(grep -Po "BLENDER_VERSION \K[0-9]{3}" "$srcdir"/blender/source/blender/blenkernel/BKE_blender_version.h)
