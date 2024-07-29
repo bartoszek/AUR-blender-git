@@ -17,7 +17,7 @@ _fragment="${FRAGMENT:-#branch=main}"
 [[ -v CUDA_ARCH ]] && _CMAKE_FLAGS+=(-DCYCLES_CUDA_BINARIES_ARCH="${CUDA_ARCH}")
 
 pkgname=blender-git
-pkgver=4.3.r138081.gee0b7b9a954
+pkgver=4.3.r139593.g8ea4d7ed892
 pkgrel=1
 pkgdesc="A fully integrated 3D graphics creation suite (development)"
 arch=('i686' 'x86_64')
@@ -223,6 +223,7 @@ package() {
   _suffix=${pkgver%%.r*}
   cd "$srcdir/build"
   sed -ie 's/\(file(INSTALL\)\(.*blender\.1"\))/#\1\2)/' source/creator/cmake_install.cmake
+  sed -ie 's|/usr/lib/python/|/usr/lib64/python3.12/|g' source/creator/cmake_install.cmake
   BLENDER_SYSTEM_RESOURCES="${pkgdir}/usr/share/blender/${_suffix}" make DESTDIR="$pkgdir" install
   #find . -name 'cmake_install.cmake' -exec sed -i -e 's|/usr/lib64/|'"$pkgdir"'/usr/lib/|g' {} \;
   #cmake --install . --prefix "$pkgdir/usr"
