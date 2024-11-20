@@ -24,7 +24,7 @@ arch=('i686' 'x86_64')
 url="https://blender.org/"
 depends+=('alembic' 'embree' 'libgl' 'python' 'python-numpy' 'openjpeg2' 'libharu' 'potrace' 'openxr'
           'ffmpeg' 'fftw' 'openal' 'freetype2' 'libxi' 'openimageio' 'opencolorio'
-          'openvdb' 'opensubdiv' 'openshadinglanguage' 'libtiff' 'libpng'
+          'openvdb' 'opencollada' 'opensubdiv' 'openshadinglanguage' 'libtiff' 'libpng'
           'python' 'python-zstandard' 'ccache')
 depends+=('libdecor' 'libepoxy')
 optdepends=('cuda: CUDA support in Cycles'
