@@ -17,7 +17,7 @@ _fragment="${FRAGMENT:-#branch=main}"
 [[ -v CUDA_ARCH ]] && _CMAKE_FLAGS+=(-DCYCLES_CUDA_BINARIES_ARCH="${CUDA_ARCH}")
 
 pkgname=blender-git
-pkgver=4.4.r143465.gb76cc897b65
+pkgver=4.4.r143681.g60bf09e8db9
 pkgrel=1
 pkgdesc="A fully integrated 3D graphics creation suite (development)"
 arch=('i686' 'x86_64')
@@ -55,7 +55,6 @@ source=("blender::git+https://github.com/blender/blender${_fragment}"
         # Patches...
         '0001-Use-github.com-for-make-update-git.patch'
         'ffmpeg:7.patch::https://projects.blender.org/blender/blender/pulls/121947'
-        'ffmpeg:7-audaspace.patch::https://projects.blender.org/blender/blender/pulls/121960.diff'
         )
 sha256sums=('SKIP'
             'SKIP'
@@ -64,8 +63,7 @@ sha256sums=('SKIP'
             'SKIP'
             'SKIP'
             '52da80b721efb6a6d579adf531640becfac1955a88857ca46ca16030a52c3b1c'
-            'c412bbc777479626c3f18a739454b3b9a55308b6d02a8ee0be6c9adfa08a94a5'
-            '847ffe878ede6ecae505d29a5feba9a998e8857fe99895ed4c2da5aaab813aa8')
+            'd5fe691ea9ff606352477285128d3c743d4702776aa64cef01730b6bd06c200f')
 
 pkgver() {
   blender_version=$(grep -Po "BLENDER_VERSION \K[0-9]{3}" "$srcdir"/blender/source/blender/blenkernel/BKE_blender_version.h)
