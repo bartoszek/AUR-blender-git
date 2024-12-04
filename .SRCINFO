@@ -1,6 +1,6 @@
 pkgbase = blender-git
 	pkgdesc = A fully integrated 3D graphics creation suite (development)
-	pkgver = 4.4.r143681.g60bf09e8db9
+	pkgver = 4.4.r144205.gfba10a82121
 	pkgrel = 1
 	url = https://blender.org/
 	arch = i686
@@ -65,7 +65,6 @@ pkgbase = blender-git
 	source = blender/dev_tools::git+https://github.com/blender/blender-dev-tools
 	source = blender/assets::svn+https://svn.blender.org/svnroot/bf-blender/trunk/lib/assets
 	source = 0001-Use-github.com-for-make-update-git.patch
-	source = ffmpeg:7.patch::https://projects.blender.org/blender/blender/pulls/121947
 	sha256sums = SKIP
 	sha256sums = SKIP
 	sha256sums = SKIP
@@ -73,6 +72,5 @@ pkgbase = blender-git
 	sha256sums = SKIP
 	sha256sums = SKIP
 	sha256sums = 52da80b721efb6a6d579adf531640becfac1955a88857ca46ca16030a52c3b1c
-	sha256sums = d5fe691ea9ff606352477285128d3c743d4702776aa64cef01730b6bd06c200f
 
 pkgname = blender-git

@@ -17,7 +17,7 @@ _fragment="${FRAGMENT:-#branch=main}"
 [[ -v CUDA_ARCH ]] && _CMAKE_FLAGS+=(-DCYCLES_CUDA_BINARIES_ARCH="${CUDA_ARCH}")
 
 pkgname=blender-git
-pkgver=4.4.r143681.g60bf09e8db9
+pkgver=4.4.r144205.gfba10a82121
 pkgrel=1
 pkgdesc="A fully integrated 3D graphics creation suite (development)"
 arch=('i686' 'x86_64')
@@ -54,7 +54,6 @@ source=("blender::git+https://github.com/blender/blender${_fragment}"
         'blender/assets::svn+https://svn.blender.org/svnroot/bf-blender/trunk/lib/assets'
         # Patches...
         '0001-Use-github.com-for-make-update-git.patch'
-        'ffmpeg:7.patch::https://projects.blender.org/blender/blender/pulls/121947'
         )
 sha256sums=('SKIP'
             'SKIP'
@@ -62,8 +61,7 @@ sha256sums=('SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
-            '52da80b721efb6a6d579adf531640becfac1955a88857ca46ca16030a52c3b1c'
-            'd5fe691ea9ff606352477285128d3c743d4702776aa64cef01730b6bd06c200f')
+            '52da80b721efb6a6d579adf531640becfac1955a88857ca46ca16030a52c3b1c')
 
 pkgver() {
   blender_version=$(grep -Po "BLENDER_VERSION \K[0-9]{3}" "$srcdir"/blender/source/blender/blenkernel/BKE_blender_version.h)
@@ -84,7 +82,10 @@ prepare() {
   # update the submodules
   git -c protocol.file.allow=always submodule update --init --recursive --remote
   mapfile -t patches < <(grep -Po '^.*?(patch|diff)(?=::|$)' < <(printf "${srcdir}/%s\n" ${source[@]}))
-  git apply -v "${patches[@]}"
+  for patch in "${patches[@]}"; do
+    msg2  "apply ${patch##*/}..."
+    git apply -v "${patches[@]}"
+  done
 }
 
 build() {
