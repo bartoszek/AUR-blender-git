@@ -64,13 +64,11 @@ pkgbase = blender-git
 	source = blender-addons-contrib::git+https://github.com/blender/blender-addons-contrib
 	source = blender/dev_tools::git+https://github.com/blender/blender-dev-tools
 	source = blender/assets::svn+https://svn.blender.org/svnroot/bf-blender/trunk/lib/assets
-	source = 0001-Use-github.com-for-make-update-git.patch
 	sha256sums = SKIP
 	sha256sums = SKIP
 	sha256sums = SKIP
 	sha256sums = SKIP
 	sha256sums = SKIP
 	sha256sums = SKIP
-	sha256sums = 52da80b721efb6a6d579adf531640becfac1955a88857ca46ca16030a52c3b1c
 
 pkgname = blender-git

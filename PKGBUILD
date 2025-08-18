@@ -53,17 +53,13 @@ source=("blender::git-lfs+https://projects.blender.org/blender/blender${_fragmen
         'blender/translations::git+https://github.com/blender/blender-translations'
         'blender-addons-contrib::git+https://github.com/blender/blender-addons-contrib'
         'blender/dev_tools::git+https://github.com/blender/blender-dev-tools'
-        'blender/assets::svn+https://svn.blender.org/svnroot/bf-blender/trunk/lib/assets'
-        # Patches...
-        '0001-Use-github.com-for-make-update-git.patch'
-        )
+        'blender/assets::svn+https://svn.blender.org/svnroot/bf-blender/trunk/lib/assets')
 sha256sums=('SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
-            'SKIP'
-            '52da80b721efb6a6d579adf531640becfac1955a88857ca46ca16030a52c3b1c')
+            'SKIP')
 
 pkgver() {
   blender_version=$(grep -Po "BLENDER_VERSION \K[0-9]{3}" "$srcdir"/blender/source/blender/blenkernel/BKE_blender_version.h)
