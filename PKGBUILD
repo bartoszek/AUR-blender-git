@@ -17,7 +17,7 @@ _fragment="${FRAGMENT:-#branch=main}"
 [[ -v CUDA_ARCH ]] && _CMAKE_FLAGS+=(-DCYCLES_CUDA_BINARIES_ARCH="${CUDA_ARCH}")
 
 pkgname=blender-git
-pkgver=4.4.r144205.gfba10a82121
+pkgver=5.0.r150498.g53e172d97ed
 pkgrel=1
 pkgdesc="A fully integrated 3D graphics creation suite (development)"
 arch=('i686' 'x86_64')
@@ -28,7 +28,7 @@ depends+=('alembic' 'embree' 'libgl' 'python' 'python-numpy' 'openjpeg2' 'libhar
           'python' 'python-zstandard' 'ccache')
 depends+=('libdecor' 'libepoxy')
 optdepends=('cuda: CUDA support in Cycles'
-            'optix>=7.4.0: OptiX support in Cycles'
+            'optix8: OptiX support in Cycles >=8.0.0 <9.0.0'
             'usd: USD export Scene'
             'openpgl: Intel Path Guiding library in Cycles'
             'openimagedenoise: Intel Open Image Denoise support in compositing'
@@ -37,7 +37,7 @@ optdepends=('cuda: CUDA support in Cycles'
             'intel-compute-runtime: Intel OpenCL FPGA kernels (all four needed)'
             'intel-graphics-compiler: Intel OpenCL FPGA kernels (all four needed)'
             'intel-oneapi-basekit: Intel OpenCL FPGA kernels (all four needed)'
-            'gcc11: Compile CUDA support in Cycles'
+            'gcc14: Compile CUDA support in Cycles'
             'makepkg-cg: Control resources during compilation')
 makedepends+=('git' 'cmake' 'boost' 'mesa' 'llvm' 'clang' 'subversion')
 makedepends+=('wayland-protocols')
@@ -46,7 +46,7 @@ makedepends+=('vulkan-headers')
 provides=('blender')
 conflicts=('blender' 'blender-4.1-bin')
 license=('GPL')
-source=("blender::git+https://github.com/blender/blender${_fragment}"
+source=("blender::git-lfs+https://projects.blender.org/blender/blender${_fragment}"
         'blender-addons::git+https://github.com/blender/blender-addons'
         'blender/translations::git+https://github.com/blender/blender-translations'
         'blender-addons-contrib::git+https://github.com/blender/blender-addons-contrib'
@@ -89,6 +89,7 @@ prepare() {
 }
 
 build() {
+  export CC=gcc-14 CPP=g++-14 CXX=g++-14 LD=g++-14
   export PATH="/opt/lib:/opt/bin:$PATH"
   _pyver=$(python -c "from sys import version_info; print(\"%d.%d\" % (version_info[0],version_info[1]))")
   msg "python version detected: ${_pyver}"
@@ -112,22 +113,25 @@ build() {
   # check for oneapi
   export _ONEAPI_CLANG=/opt/intel/oneapi/compiler/latest/linux/bin-llvm/clang
   export _ONEAPI_CLANGXX=/opt/intel/oneapi/compiler/latest/linux/bin-llvm/clang++
-  [[ -f "$_ONEAPI_CLANG" ]] && (
+  if [ -f "$_ONEAPI_CLANG" ]; then
     _CMAKE_FLAGS+=( -DWITH_CYCLES_DEVICE_ONEAPI=ON \
                     -DWITH_CYCLES_ONEAPI_BINARIES=ON \
                     -DWITH_CLANG=ON )
-  )
+  else
+    # Because some defaults are ON.
+    _CMAKE_FLAGS+=( -DWITH_CYCLES_DEVICE_ONEAPI=OFF \
+                    -DWITH_CYCLES_ONEAPI_BINARIES=OFF )
+  fi
   [[ -f /opt/bin/clang ]] && _CMAKE_FLAGS+=( -DLLVM_ROOT_DIR=/opt/lib )
 
   # determine whether we can precompile CUDA kernels
   _CUDA_PKG=$(pacman -Qq cuda 2>/dev/null) || true
   if [ "$_CUDA_PKG" != "" ]; then
-    CUDAHOSTCXX=`which gcc-11`
-    PATH="/usr/lib/gcc/x86_64-pc-linux-gnu/11.3.0/:$PATH"
+    CUDAHOSTCXX=`which gcc-14`
     # https://wiki.blender.org/wiki/Building_Blender/GPU_Binaries
     _CMAKE_FLAGS+=( -DWITH_CYCLES_CUDA_BINARIES=ON \
                     -DWITH_COMPILER_ASAN=OFF \
-                    -DCMAKE_CUDA_HOST_COMPILER=`which gcc-11` )
+                    -DCMAKE_CUDA_HOST_COMPILER=`which gcc-14` )
   fi
 
   # check for materialx
@@ -144,7 +148,7 @@ build() {
   fi
 
   # check for optix
-  _OPTIX_PKG=$(pacman -Qq optix 2>/dev/null) || true
+  _OPTIX_PKG=$(pacman -Qq optix8 2>/dev/null) || true
   if [ "$_OPTIX_PKG" != "" ]; then
       _CMAKE_FLAGS+=( -DWITH_CYCLES_DEVICE_OPTIX=ON \
                       -DOPTIX_ROOT_DIR=/opt/optix )
@@ -158,7 +162,15 @@ build() {
 
   if [ -d /opt/rocm/bin ]; then
       _CMAKE_FLAGS+=( -DWITH_CYCLES_HIP_BINARIES=ON
+                      -DWITH_CYCLES_DEVICE_HIP=ON
+                      -DWITH_CYCLES_DEVICE_HIPRT=ON
                       -DWITH_CYCLES_HYDRA_RENDER_DELEGATE:BOOL=FALSE
+                    )
+  else
+      # Because some defaults are ON.
+      _CMAKE_FLAGS+=( -DWITH_CYCLES_HIP_BINARIES=OFF
+                      -DWITH_CYCLES_DEVICE_HIP=OFF
+                      -DWITH_CYCLES_DEVICE_HIPRT=OFF
                     )
   fi
 
@@ -166,7 +178,7 @@ build() {
     rm "$srcdir/blender/CMakeCache.txt"
   fi
 
-  NUMPY_PY_INCLUDE=/usr/lib/python${_pyver}/site-packages/numpy/core/include/
+  NUMPY_PY_INCLUDE=/usr/lib/python${_pyver}/site-packages/numpy/_core/include/
   [[ -d "$NUMPY_PY_INCLUDE" ]] && (
     _CMAKE_FLAGS+=( -DNUMPY_INCLUDE_DIR="$NUMPY_PY_INCLUDE" );
     __CFLAGS="$CFLAGS -I$NUMPY_PY_INCLUDE"
@@ -222,7 +234,7 @@ package() {
   _suffix=${pkgver%%.r*}
   cd "$srcdir/build"
   sed -ie 's/\(file(INSTALL\)\(.*blender\.1"\))/#\1\2)/' source/creator/cmake_install.cmake
-  sed -ie 's|/usr/lib/python/|/usr/lib64/python3.12/|g' source/creator/cmake_install.cmake
+  sed -ie 's|/usr/lib/python/|/usr/lib64/python3.13/|g' source/creator/cmake_install.cmake
   BLENDER_SYSTEM_RESOURCES="${pkgdir}/usr/share/blender/${_suffix}" make DESTDIR="$pkgdir" install
   #find . -name 'cmake_install.cmake' -exec sed -i -e 's|/usr/lib64/|'"$pkgdir"'/usr/lib/|g' {} \;
   #cmake --install . --prefix "$pkgdir/usr"
