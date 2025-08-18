@@ -17,7 +17,7 @@ _fragment="${FRAGMENT:-#branch=main}"
 [[ -v CUDA_ARCH ]] && _CMAKE_FLAGS+=(-DCYCLES_CUDA_BINARIES_ARCH="${CUDA_ARCH}")
 
 pkgname=blender-git
-pkgver=5.0.r150498.g53e172d97ed
+pkgver=5.0.r153096.g56646137fe5
 pkgrel=1
 pkgdesc="A fully integrated 3D graphics creation suite (development)"
 arch=('i686' 'x86_64')
@@ -43,6 +43,7 @@ makedepends+=('git' 'cmake' 'boost' 'mesa' 'llvm' 'clang' 'subversion')
 makedepends+=('wayland-protocols')
 makedepends+=('cython')
 makedepends+=('vulkan-headers')
+makedepends+=('makepkg-git-lfs-proto') # provides /usr/share/makepkg/source/git-lfs.sh (download_git-lfs, extract_git-lfs)
 provides=('blender')
 conflicts=('blender' 'blender-4.1-bin')
 license=('GPL')

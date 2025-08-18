@@ -1,6 +1,6 @@
 pkgbase = blender-git
 	pkgdesc = A fully integrated 3D graphics creation suite (development)
-	pkgver = 5.0.r150498.g53e172d97ed
+	pkgver = 5.0.r153096.g56646137fe5
 	pkgrel = 1
 	url = https://blender.org/
 	arch = i686
@@ -16,6 +16,7 @@ pkgbase = blender-git
 	makedepends = wayland-protocols
 	makedepends = cython
 	makedepends = vulkan-headers
+	makedepends = makepkg-git-lfs-proto
 	depends = alembic
 	depends = embree
 	depends = libgl
