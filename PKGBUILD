@@ -1,7 +1,8 @@
 #!/bin/bash
 # Maintainer: Fredrick Brennan <copypaste@kittens.ph>
 # Submitter: Lukas Jirkovsky <l.jirkovsky@gmail.com>
-# Co-maintainer : bartus <arch-user-repoᘓbartus.33mail.com>
+# Co-maintainer: bartus <arch-user-repoᘓbartus.33mail.com>
+# Contributor: Adrian Sausenthaler <aur@sausenthaler.de>
 
 #Configuration:
 #Use: makepkg VAR1=0 VAR2=1 to enable(1) disable(0) a feature
@@ -24,7 +25,7 @@ arch=('i686' 'x86_64')
 url="https://blender.org/"
 depends+=('alembic' 'embree' 'libgl' 'python' 'python-numpy' 'openjpeg2' 'libharu' 'potrace' 'openxr'
           'ffmpeg' 'fftw' 'openal' 'freetype2' 'libxi' 'openimageio' 'opencolorio'
-          'openvdb' 'opencollada' 'opensubdiv' 'openshadinglanguage' 'libtiff' 'libpng'
+          'openvdb' 'opensubdiv' 'openshadinglanguage' 'libtiff' 'libpng'
           'python' 'python-zstandard' 'ccache')
 depends+=('libdecor' 'libepoxy')
 optdepends=('cuda: CUDA support in Cycles'

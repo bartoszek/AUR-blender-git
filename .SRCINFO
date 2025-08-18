@@ -34,7 +34,6 @@ pkgbase = blender-git
 	depends = openimageio
 	depends = opencolorio
 	depends = openvdb
-	depends = opencollada
 	depends = opensubdiv
 	depends = openshadinglanguage
 	depends = libtiff
