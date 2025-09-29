@@ -58,6 +58,7 @@ pkgbase = blender-git
 	provides = blender
 	conflicts = blender
 	conflicts = blender-4.1-bin
+	options = !lto
 	source = blender::git-lfs+https://projects.blender.org/blender/blender#branch=main
 	sha256sums = SKIP
 

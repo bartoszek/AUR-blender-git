@@ -24,6 +24,7 @@ pkgrel=1
 pkgdesc="A fully integrated 3D graphics creation suite (development)"
 arch=('i686' 'x86_64')
 url="https://blender.org/"
+options=(!lto)
 depends+=('alembic' 'embree' 'libgl' 'python' 'python-numpy' 'openjpeg2' 'libharu' 'potrace' 'openxr'
           'ffmpeg' 'fftw' 'openal' 'freetype2' 'libxi' 'manifold' 'openimageio' 'opencolorio'
           'openvdb' 'opensubdiv' 'openshadinglanguage' 'libtiff' 'libpng'
@@ -167,8 +168,6 @@ build() {
     export CXXFLAGS="$__CXXFLAGS"
   )
 
-  export CFLAGS="$CFLAGS -fno-lto"
-  export CXXFLAGS="$CXXFLAGS -fno-lto"
   # Who even knows why this is needed
   export CFLAGS="$CFLAGS -lSPIRV -lSPIRV-Tools -lSPIRV-Tools-opt -lSPIRV-Tools-link -lSPIRV-Tools-reduce -lSPIRV-Tools-shared -lglslang"
   export CXXFLAGS="$CXXFLAGS -lSPIRV -lSPIRV-Tools -lSPIRV-Tools-opt -lSPIRV-Tools-link -lSPIRV-Tools-reduce -lSPIRV-Tools-shared -lglslang"
