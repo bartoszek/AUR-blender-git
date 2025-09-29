@@ -38,7 +38,6 @@ optdepends=('cuda: CUDA support in Cycles'
             'intel-compute-runtime: Intel OpenCL FPGA kernels (all four needed)'
             'intel-graphics-compiler: Intel OpenCL FPGA kernels (all four needed)'
             'intel-oneapi-basekit: Intel OpenCL FPGA kernels (all four needed)'
-            'gcc14: Compile CUDA support in Cycles'
             'makepkg-cg: Control resources during compilation')
 makedepends+=('git' 'cmake' 'boost' 'mesa' 'llvm' 'clang' 'subversion')
 makedepends+=('wayland-protocols')
@@ -71,7 +70,6 @@ prepare() {
 }
 
 build() {
-  export CC=gcc-14 CPP=g++-14 CXX=g++-14 LD=g++-14
   export PATH="/opt/lib:/opt/bin:$PATH"
   _pyver=$(python -c "from sys import version_info; print(\"%d.%d\" % (version_info[0],version_info[1]))")
   msg "python version detected: ${_pyver}"
@@ -109,11 +107,10 @@ build() {
   # determine whether we can precompile CUDA kernels
   _CUDA_PKG=$(pacman -Qq cuda 2>/dev/null) || true
   if [ "$_CUDA_PKG" != "" ]; then
-    CUDAHOSTCXX=`which gcc-14`
     # https://wiki.blender.org/wiki/Building_Blender/GPU_Binaries
     _CMAKE_FLAGS+=( -DWITH_CYCLES_CUDA_BINARIES=ON \
                     -DWITH_COMPILER_ASAN=OFF \
-                    -DCMAKE_CUDA_HOST_COMPILER=`which gcc-14` )
+                    -DCMAKE_CUDA_HOST_COMPILER=${NVCC_CCBIN} ) # defined in /etc/profile.d/cuda.sh
   fi
 
   # check for materialx

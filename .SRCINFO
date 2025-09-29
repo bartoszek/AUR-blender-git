@@ -53,7 +53,6 @@ pkgbase = blender-git
 	optdepends = intel-compute-runtime: Intel OpenCL FPGA kernels (all four needed)
 	optdepends = intel-graphics-compiler: Intel OpenCL FPGA kernels (all four needed)
 	optdepends = intel-oneapi-basekit: Intel OpenCL FPGA kernels (all four needed)
-	optdepends = gcc14: Compile CUDA support in Cycles
 	optdepends = makepkg-cg: Control resources during compilation
 	provides = blender
 	conflicts = blender
