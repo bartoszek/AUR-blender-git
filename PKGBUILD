@@ -49,17 +49,9 @@ provides=('blender')
 conflicts=('blender' 'blender-4.1-bin')
 license=('GPL')
 source=("blender::git-lfs+https://projects.blender.org/blender/blender${_fragment}"
-        'blender-addons::git+https://github.com/blender/blender-addons'
-        'blender/translations::git+https://github.com/blender/blender-translations'
-        'blender-addons-contrib::git+https://github.com/blender/blender-addons-contrib'
-        'blender/dev_tools::git+https://github.com/blender/blender-dev-tools'
-        'blender/assets::svn+https://svn.blender.org/svnroot/bf-blender/trunk/lib/assets')
+  )
 sha256sums=('SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP')
+  )
 
 pkgver() {
   blender_version=$(grep -Po "BLENDER_VERSION \K[0-9]{3}" "$srcdir"/blender/source/blender/blenkernel/BKE_blender_version.h)
@@ -71,14 +63,6 @@ pkgver() {
 }
 
 prepare() {
-  cd "$srcdir"
-  mkdir -p blender/scripts/addons
-  rm -rf blender/scripts/addons{,/contrib}
-  mv blender-addons blender/scripts/addons
-  mv blender-addons-contrib blender/scripts/addons/contrib
-  cd "blender"
-  # update the submodules
-  git -c protocol.file.allow=always submodule update --init --recursive --remote
   mapfile -t patches < <(grep -Po '^.*?(patch|diff)(?=::|$)' < <(printf "${srcdir}/%s\n" ${source[@]}))
   for patch in "${patches[@]}"; do
     msg2  "apply ${patch##*/}..."
