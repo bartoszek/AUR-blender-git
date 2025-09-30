@@ -1,6 +1,6 @@
 pkgbase = blender-git
 	pkgdesc = A fully integrated 3D graphics creation suite (development)
-	pkgver = 5.0.r153101.g76c5bdf0be4
+	pkgver = 5.0.r154311.gacde9be6fd2
 	pkgrel = 1
 	url = https://blender.org/
 	arch = i686
@@ -31,6 +31,7 @@ pkgbase = blender-git
 	depends = openal
 	depends = freetype2
 	depends = libxi
+	depends = manifold
 	depends = openimageio
 	depends = opencolorio
 	depends = openvdb
