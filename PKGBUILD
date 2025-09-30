@@ -16,6 +16,7 @@ _fragment="${FRAGMENT:-#branch=main}"
 # Use CUDA_ARCH to build for specific GPU architecture
 # Supports: single arch (sm_52) and list of archs (sm_52;sm_60)
 [[ -v CUDA_ARCH ]] && _CMAKE_FLAGS+=(-DCYCLES_CUDA_BINARIES_ARCH="${CUDA_ARCH}")
+[[ -v HIP_ARCH  ]] && _CMAKE_FLAGS+=(-DCYCLES_HIP_BINARIES_ARCH="${HIP_ARCH}")
 
 pkgname=blender-git
 pkgver=5.0.r154311.gacde9be6fd2
