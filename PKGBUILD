@@ -158,15 +158,6 @@ build() {
   fi
 
 
-  NUMPY_PY_INCLUDE=/usr/lib/python${_pyver}/site-packages/numpy/_core/include/
-  [[ -d "$NUMPY_PY_INCLUDE" ]] && (
-    _CMAKE_FLAGS+=( -DNUMPY_INCLUDE_DIR="$NUMPY_PY_INCLUDE" );
-    __CFLAGS="$CFLAGS -I$NUMPY_PY_INCLUDE"
-    __CXXFLAGS="$CXXFLAGS -I$NUMPY_PY_INCLUDE"
-    export CFLAGS="$__CFLAGS"
-    export CXXFLAGS="$__CXXFLAGS"
-  )
-
   # Who even knows why this is needed
   export CFLAGS="$CFLAGS -lSPIRV -lSPIRV-Tools -lSPIRV-Tools-opt -lSPIRV-Tools-link -lSPIRV-Tools-reduce -lSPIRV-Tools-shared -lglslang"
   export CXXFLAGS="$CXXFLAGS -lSPIRV -lSPIRV-Tools -lSPIRV-Tools-opt -lSPIRV-Tools-link -lSPIRV-Tools-reduce -lSPIRV-Tools-shared -lglslang"
