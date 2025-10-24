@@ -81,9 +81,9 @@ build() {
   msg "python version detected: ${_pyver}"
 
   declare -a -g _CMAKE_FLAGS
-  _CMAKE_FLAGS+=( -DPYTHON_VERSION=$_pyver \
-                  -DPYTHON_LIBRARY=/usr/lib/libpython${_pyver}.so \
-                  -DWITH_PYTHON_INSTALL=ON \
+  _CMAKE_FLAGS+=( -DPYTHON_VERSION=$_pyver
+                  -DPYTHON_LIBRARY=/usr/lib/libpython${_pyver}.so
+                  -DWITH_PYTHON_INSTALL=ON
                   -DWITH_PYTHON_SAFETY=OFF )
 
 
@@ -91,9 +91,9 @@ build() {
   export _ONEAPI_CLANG=/opt/intel/oneapi/compiler/latest/bin/compiler/clang
   export _ONEAPI_CLANGXX=/opt/intel/oneapi/compiler/latest/bin/compiler/clang++
   if [ -f "$_ONEAPI_CLANG" ]; then
-    _CMAKE_FLAGS+=( -DWITH_CYCLES_DEVICE_ONEAPI=ON \
-                    -DWITH_CYCLES_ONEAPI_BINARIES=ON \
-                    -DWITH_CLANG=ON 
+    _CMAKE_FLAGS+=( -DWITH_CYCLES_DEVICE_ONEAPI=ON
+                    -DWITH_CYCLES_ONEAPI_BINARIES=ON
+                    -DWITH_CLANG=ON
                     -DSYCL_CPP_FLAGS="--verbose"  # for debugging
                     -DOCLOC_INSTALL_DIR=/usr
                     -DSYCL_ROOT_DIR=/opt/intel/oneapi/compiler/latest/
@@ -101,7 +101,7 @@ build() {
                   )
   else
     # Because some defaults are ON.
-    _CMAKE_FLAGS+=( -DWITH_CYCLES_DEVICE_ONEAPI=OFF \
+    _CMAKE_FLAGS+=( -DWITH_CYCLES_DEVICE_ONEAPI=OFF
                     -DWITH_CYCLES_ONEAPI_BINARIES=OFF )
   fi
 
@@ -110,8 +110,8 @@ build() {
   if [ "$_CUDA_PKG" != "" ]; then
     export CUDAHOSTCXX="$NVCC_CCBIN" # defined in /etc/profile.d/cuda.sh
     # https://wiki.blender.org/wiki/Building_Blender/GPU_Binaries
-    _CMAKE_FLAGS+=( -DWITH_CYCLES_CUDA_BINARIES=ON \
-                    -DWITH_COMPILER_ASAN=OFF \
+    _CMAKE_FLAGS+=( -DWITH_CYCLES_CUDA_BINARIES=ON
+                    -DWITH_COMPILER_ASAN=OFF
                     -DCMAKE_CUDA_HOST_COMPILER=${NVCC_CCBIN} ) # defined in /etc/profile.d/cuda.sh
   fi
 
@@ -129,7 +129,7 @@ build() {
   # check for optix
   _OPTIX_PKG=$(pacman -Qq optix8 2>/dev/null) || true
   if [ "$_OPTIX_PKG" != "" ]; then
-      _CMAKE_FLAGS+=( -DWITH_CYCLES_DEVICE_OPTIX=ON \
+      _CMAKE_FLAGS+=( -DWITH_CYCLES_DEVICE_OPTIX=ON
                       -DOPTIX_ROOT_DIR=/opt/optix )
   fi
 
