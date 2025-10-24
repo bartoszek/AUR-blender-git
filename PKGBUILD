@@ -199,6 +199,10 @@ package() {
   python -m compileall "${pkgdir}/usr/share/blender"
   python -O -m compileall "${pkgdir}/usr/share/blender"
 
+  # Move OneAPI AOT lib to proper place
+  mkdir "${pkgdir}"/usr/lib/
+  mv "${pkgdir}"/usr/share/blender/lib/libcycles_kernel_oneapi_aot.so "${pkgdir}"/usr/lib/ || warning "OneAPI missing from the build!"
+
   if [[ -e "$pkgdir/usr/share/blender/${_suffix}/scripts/addons/cycles/lib/" ]] ; then
     # make sure the cuda kernels are not stripped
     chmod 444 "$pkgdir"/usr/share/blender/${_suffix}/scripts/addons/cycles/lib/*
