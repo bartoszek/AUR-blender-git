@@ -175,13 +175,10 @@ build() {
 
 
   USING_MAKEPKG_CG="$(systemctl --user -t slice | grep -o makepkg-cg-`id -u`-'[[:digit:]]\+'.slice'[[:space:]]\+'loaded'[[:space:]]\+'active)" || true
-  MAKEPKG_CG_WARNING=$(
-    cat << 'EOF'
-If you use systemd, consider trying `makepkg-cg`.
+  MAKEPKG_CG_WARNING=\
+'If you use systemd, consider trying `makepkg-cg`.
 This build is otherwise very likely to use more RAM than
-the system has, especially with a high `-j`!
-EOF
-  )
+the system has, especially with a high `-j`!'
   [[ -z "$USING_MAKEPKG_CG" ]] && warning "$MAKEPKG_CG_WARNING"
   cmake -S blender -B build -G Ninja "${_CMAKE_FLAGS[@]}"
   cmake --build build ${MAKEFLAGS:--j1}
