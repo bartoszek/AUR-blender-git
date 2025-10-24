@@ -188,9 +188,9 @@ EOF
   [[ -z "$USING_MAKEPKG_CG" ]] && warning "$MAKEPKG_CG_WARNING"
   
   cd blender
-  env "${CMAKE_CMD[@]}"
+  "${CMAKE_CMD[@]}"
   cd ../build
-  env CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" $MAKE_CMD
+  $MAKE_CMD
 }
 
 package() {
