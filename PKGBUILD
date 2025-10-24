@@ -187,8 +187,9 @@ the system has, especially with a high `-j`!'
 package() {
   _suffix=${pkgver%%.r*}
   cd "$srcdir/build"
-  sed -ie 's/\(file(INSTALL\)\(.*blender\.1"\))/#\1\2)/' source/creator/cmake_install.cmake
-  sed -ie 's|/usr/lib/python/|/usr/lib64/python3.13/|g' source/creator/cmake_install.cmake
+  sed -e 's/\(file(INSTALL\)\(.*blender\.1"\))/#\1\2)/' \
+      -e 's|/usr/lib/python/|/usr/lib64/python3.13/|g' \
+      -i "$srcdir"/build/source/creator/cmake_install.cmake
   BLENDER_SYSTEM_RESOURCES="${pkgdir}/usr/share/blender/${_suffix}" make DESTDIR="$pkgdir" install
   #find . -name 'cmake_install.cmake' -exec sed -i -e 's|/usr/lib64/|'"$pkgdir"'/usr/lib/|g' {} \;
   #cmake --install . --prefix "$pkgdir/usr"
