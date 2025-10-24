@@ -80,7 +80,6 @@ build() {
   _pyver=$(python -c "from sys import version_info; print(\"%d.%d\" % (version_info[0],version_info[1]))")
   msg "python version detected: ${_pyver}"
 
-  declare -a -g _CMAKE_FLAGS
   _CMAKE_FLAGS+=( -DPYTHON_VERSION=$_pyver
                   -DPYTHON_LIBRARY=/usr/lib/libpython${_pyver}.so
                   -DWITH_PYTHON_INSTALL=ON
