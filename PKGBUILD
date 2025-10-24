@@ -157,7 +157,7 @@ build() {
   fi
 
 
-  CMAKE_CMD=(CUDAHOSTCXX="$CUDAHOSTCXX" cmake -B "$srcdir/build" --fresh
+  CMAKE_CMD=(cmake -B "$srcdir/build" --fresh
                 -C "${srcdir}/blender/build_files/cmake/config/blender_release.cmake"
                 -G Ninja
                 -DCMAKE_INSTALL_PREFIX=/usr
