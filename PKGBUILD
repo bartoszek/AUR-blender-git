@@ -82,7 +82,7 @@ build() {
 
   _CMAKE_FLAGS+=( -DPYTHON_VERSION=$_pyver
                   -DPYTHON_LIBRARY=/usr/lib/libpython${_pyver}.so
-                  -DWITH_PYTHON_INSTALL=ON
+                  -DWITH_PYTHON_INSTALL=OFF
                   -DWITH_PYTHON_SAFETY=OFF )
 
 
