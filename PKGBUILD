@@ -44,7 +44,7 @@ optdepends=('cuda: CUDA support in Cycles'
             'intel-oneapi-compiler-shared-runtime: Intel OpenCL FPGA kernels (all four needed)'
             'intel-oneapi-dpcpp-cpp: Intel OpenCL FPGA kernels (all four needed)'
             'makepkg-cg: Control resources during compilation')
-makedepends+=('git' 'cmake' 'boost' 'mesa' 'llvm' 'clang' 'subversion')
+makedepends+=('git' 'cmake' 'boost' 'mesa' 'llvm' 'clang' 'subversion' 'ninja' 'mold')
 makedepends+=('wayland-protocols')
 makedepends+=('cython')
 makedepends+=('vulkan-headers')
@@ -186,9 +186,10 @@ build() {
 
   CMAKE_CMD=(CUDAHOSTCXX="$CUDAHOSTCXX" cmake -B "$srcdir/build" --fresh
                 -C "${srcdir}/blender/build_files/cmake/config/blender_release.cmake"
-                -GUnix\ Makefiles
+                -G Ninja
                 -DCMAKE_INSTALL_PREFIX=/usr
                 -DCMAKE_INSTALL_PREFIX_WITH_CONFIG="${pkgdir}/usr"
+                -DWITH_LINKER_MOLD=ON
                 -DCMAKE_SKIP_INSTALL_RPATH=ON
                 -DCMAKE_SKIP_BUILD_RPATH=ON
                 -DCMAKE_BUILD_TYPE=Release
