@@ -81,15 +81,10 @@ build() {
   msg "python version detected: ${_pyver}"
 
   declare -a -g _CMAKE_FLAGS
-  # determine whether we can install python modules
-  if [[ -n "$_pyver" ]]; then
-    export PYTHON_LIBRARY=/usr/lib/libpython${_pyver}.so
-    export PYTHON_VERSION=${_pyver}
-    _CMAKE_FLAGS+=( -DPYTHON_VERSION=$_pyver \
-                    -DPYTHON_LIBRARY=/usr/lib/libpython${_pyver}.so \
-                    -DWITH_PYTHON_INSTALL=ON \
-                    -DWITH_PYTHON_SAFETY=OFF )
-  fi
+  _CMAKE_FLAGS+=( -DPYTHON_VERSION=$_pyver \
+                  -DPYTHON_LIBRARY=/usr/lib/libpython${_pyver}.so \
+                  -DWITH_PYTHON_INSTALL=ON \
+                  -DWITH_PYTHON_SAFETY=OFF )
 
   export CUDAHOSTCXX="$NVCC_CCBIN"
 
