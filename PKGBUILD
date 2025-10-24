@@ -196,6 +196,9 @@ package() {
   install -Dm644 release/freedesktop/org.blender.Blender.metainfo.xml "${pkgdir}/usr/share/metainfo/org.blender.Blender.metainfo.xml"
   install -vDm 644 doc/license/{BSD-{2,3}-Clause,MIT,Zlib}-license.txt -t "$pkgdir/usr/share/licenses/blender/"
 
+  python -m compileall "${pkgdir}/usr/share/blender"
+  python -O -m compileall "${pkgdir}/usr/share/blender"
+
   if [[ -e "$pkgdir/usr/share/blender/${_suffix}/scripts/addons/cycles/lib/" ]] ; then
     # make sure the cuda kernels are not stripped
     chmod 444 "$pkgdir"/usr/share/blender/${_suffix}/scripts/addons/cycles/lib/*
