@@ -158,12 +158,6 @@ build() {
   fi
 
 
-  # Who even knows why this is needed
-  export CFLAGS="$CFLAGS -lSPIRV -lSPIRV-Tools -lSPIRV-Tools-opt -lSPIRV-Tools-link -lSPIRV-Tools-reduce -lSPIRV-Tools-shared -lglslang"
-  export CXXFLAGS="$CXXFLAGS -lSPIRV -lSPIRV-Tools -lSPIRV-Tools-opt -lSPIRV-Tools-link -lSPIRV-Tools-reduce -lSPIRV-Tools-shared -lglslang"
-  _CMAKE_FLAGS+=( -DCMAKE_C_FLAGS="$CFLAGS" );
-  _CMAKE_FLAGS+=( -DCMAKE_CXX_FLAGS="$CXXFLAGS" );
-
   CMAKE_CMD=(CUDAHOSTCXX="$CUDAHOSTCXX" cmake -B "$srcdir/build" --fresh
                 -C "${srcdir}/blender/build_files/cmake/config/blender_release.cmake"
                 -G Ninja
