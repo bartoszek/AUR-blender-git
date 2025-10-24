@@ -164,9 +164,6 @@ build() {
                     )
   fi
 
-  if [[ -f "$srcdir/blender/CMakeCache.txt" && -z "$KEEP_CMAKE_CACHE" ]]; then
-    rm "$srcdir/blender/CMakeCache.txt"
-  fi
 
   NUMPY_PY_INCLUDE=/usr/lib/python${_pyver}/site-packages/numpy/_core/include/
   [[ -d "$NUMPY_PY_INCLUDE" ]] && (
