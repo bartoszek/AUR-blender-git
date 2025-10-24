@@ -191,6 +191,11 @@ package() {
       -i "$srcdir"/build/source/creator/cmake_install.cmake
   BLENDER_SYSTEM_RESOURCES="${pkgdir}/usr/share/blender/${_suffix}" DESTDIR="${pkgdir}" cmake --install build
 
+  cd blender
+  install -Dm755 release/bin/blender-softwaregl "${pkgdir}/usr/bin/blender-softwaregl"
+  install -Dm644 release/freedesktop/org.blender.Blender.metainfo.xml "${pkgdir}/usr/share/metainfo/org.blender.Blender.metainfo.xml"
+  install -vDm 644 doc/license/{BSD-{2,3}-Clause,MIT,Zlib}-license.txt -t "$pkgdir/usr/share/licenses/blender/"
+
   if [[ -e "$pkgdir/usr/share/blender/${_suffix}/scripts/addons/cycles/lib/" ]] ; then
     # make sure the cuda kernels are not stripped
     chmod 444 "$pkgdir"/usr/share/blender/${_suffix}/scripts/addons/cycles/lib/*
