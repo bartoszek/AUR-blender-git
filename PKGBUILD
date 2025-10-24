@@ -12,6 +12,9 @@
 
 # Use FRAGMENT=#{commit,tag,brach}=xxx for bisect build
 _fragment="${FRAGMENT:-#branch=main}"
+# revert oneapi:2025.3 conflicts
+_git_revert=(72f098248d41fc92e9275c5f33357117ba66e54e # memmap
+             49414a72f607ccd15f8b71b81edc9aff040d581e) # v3.1 arch
 
 # Use CUDA_ARCH to build for specific GPU architecture
 # Supports: single arch (sm_52) and list of archs (sm_52;sm_60)
@@ -38,8 +41,8 @@ optdepends=('cuda: CUDA support in Cycles'
             'materialx: MaterialX materials'
             'level-zero-headers: Intel OpenCL FPGA kernels (all four needed)'
             'intel-compute-runtime: Intel OpenCL FPGA kernels (all four needed)'
-            'intel-graphics-compiler: Intel OpenCL FPGA kernels (all four needed)'
-            'intel-oneapi-basekit: Intel OpenCL FPGA kernels (all four needed)'
+            'intel-oneapi-compiler-shared-runtime: Intel OpenCL FPGA kernels (all four needed)'
+            'intel-oneapi-dpcpp-cpp: Intel OpenCL FPGA kernels (all four needed)'
             'makepkg-cg: Control resources during compilation')
 makedepends+=('git' 'cmake' 'boost' 'mesa' 'llvm' 'clang' 'subversion')
 makedepends+=('wayland-protocols')
@@ -69,6 +72,8 @@ prepare() {
     msg2  "apply ${patch##*/}..."
     git apply -v "${patches[@]}"
   done
+  msg2  "revert ${_git_revert[@]}..."
+  [[ -v _git_revert ]] && git -C "${srcdir}"/blender revert --no-commit "${_git_revert[@]}"
 }
 
 build() {
@@ -93,12 +98,17 @@ build() {
                   -DWITH_CYCLES=ON )
 
   # check for oneapi
-  export _ONEAPI_CLANG=/opt/intel/oneapi/compiler/latest/linux/bin-llvm/clang
-  export _ONEAPI_CLANGXX=/opt/intel/oneapi/compiler/latest/linux/bin-llvm/clang++
+  export _ONEAPI_CLANG=/opt/intel/oneapi/compiler/latest/bin/compiler/clang
+  export _ONEAPI_CLANGXX=/opt/intel/oneapi/compiler/latest/bin/compiler/clang++
   if [ -f "$_ONEAPI_CLANG" ]; then
     _CMAKE_FLAGS+=( -DWITH_CYCLES_DEVICE_ONEAPI=ON \
                     -DWITH_CYCLES_ONEAPI_BINARIES=ON \
-                    -DWITH_CLANG=ON )
+                    -DWITH_CLANG=ON 
+                    -DSYCL_CPP_FLAGS="--verbose"  # for debugging
+                    -DOCLOC_INSTALL_DIR=/usr
+                    -DSYCL_ROOT_DIR=/opt/intel/oneapi/compiler/latest/
+                    -DSYCL_OFFLINE_COMPILER_PARALLEL_JOBS=$(nproc)
+                  )
   else
     # Because some defaults are ON.
     _CMAKE_FLAGS+=( -DWITH_CYCLES_DEVICE_ONEAPI=OFF \
