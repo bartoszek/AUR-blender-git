@@ -77,7 +77,6 @@ prepare() {
 }
 
 build() {
-  export PATH="/opt/lib:/opt/bin:$PATH"
   _pyver=$(python -c "from sys import version_info; print(\"%d.%d\" % (version_info[0],version_info[1]))")
   msg "python version detected: ${_pyver}"
 
@@ -114,7 +113,6 @@ build() {
     _CMAKE_FLAGS+=( -DWITH_CYCLES_DEVICE_ONEAPI=OFF \
                     -DWITH_CYCLES_ONEAPI_BINARIES=OFF )
   fi
-  [[ -f /opt/bin/clang ]] && _CMAKE_FLAGS+=( -DLLVM_ROOT_DIR=/opt/lib )
 
   # determine whether we can precompile CUDA kernels
   _CUDA_PKG=$(pacman -Qq cuda 2>/dev/null) || true
@@ -129,13 +127,11 @@ build() {
   _MX_PKG=$(pacman -Qq materialx 2>/dev/null) || true
   if [ "$_MX_PKG" != "" ]; then
     _CMAKE_FLAGS+=( -DWITH_MATERIALX=ON )
-    PATH="/usr/materialx:$PATH"  
   fi
 
   _USD_PKG=$(pacman -Qq usd 2>/dev/null) || true
   if [ "$_USD_PKG" != "" ]; then
     _CMAKE_FLAGS+=( -DWITH_USD=ON )
-    PATH="/usr/share/usd:$PATH"  
   fi
 
   # check for optix
