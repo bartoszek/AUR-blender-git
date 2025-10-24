@@ -93,8 +93,6 @@ build() {
 
   export CUDAHOSTCXX="$NVCC_CCBIN"
 
-  _CMAKE_FLAGS+=( -DWITH_CLANG=ON \
-                  -DWITH_CYCLES=ON )
 
   # check for oneapi
   export _ONEAPI_CLANG=/opt/intel/oneapi/compiler/latest/bin/compiler/clang
