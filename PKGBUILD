@@ -151,7 +151,10 @@ build() {
       _CMAKE_FLAGS+=( -DWITH_CYCLES_HIP_BINARIES=ON
                       -DWITH_CYCLES_DEVICE_HIP=ON
                       -DWITH_CYCLES_DEVICE_HIPRT=ON
-                      -DWITH_CYCLES_HYDRA_RENDER_DELEGATE:BOOL=FALSE
+                      -DHIP_ROOT_DIR=/opt/rocm
+                      -DHIPRT_INCLUDE_DIR=/opt/rocm/include
+                      -DHIPRT_COMPILER_PARALLEL_JOBS=$(nproc)
+                      -DWITH_CYCLES_HYDRA_RENDER_DELEGATE=OFF
                     )
   else
       # Because some defaults are ON.
