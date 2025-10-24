@@ -86,8 +86,6 @@ build() {
                   -DWITH_PYTHON_INSTALL=ON \
                   -DWITH_PYTHON_SAFETY=OFF )
 
-  export CUDAHOSTCXX="$NVCC_CCBIN"
-
 
   # check for oneapi
   export _ONEAPI_CLANG=/opt/intel/oneapi/compiler/latest/bin/compiler/clang
@@ -110,6 +108,7 @@ build() {
   # determine whether we can precompile CUDA kernels
   _CUDA_PKG=$(pacman -Qq cuda 2>/dev/null) || true
   if [ "$_CUDA_PKG" != "" ]; then
+    export CUDAHOSTCXX="$NVCC_CCBIN" # defined in /etc/profile.d/cuda.sh
     # https://wiki.blender.org/wiki/Building_Blender/GPU_Binaries
     _CMAKE_FLAGS+=( -DWITH_CYCLES_CUDA_BINARIES=ON \
                     -DWITH_COMPILER_ASAN=OFF \
