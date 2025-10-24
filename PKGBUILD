@@ -171,9 +171,7 @@ build() {
                 -DWITH_STATIC_LIBS=OFF
                 -DXR_OPENXR_SDK_ROOT_DIR=/usr
                 -DPYTHON_VERSION="${_pyver}"
-                "${_CMAKE_FLAGS[@]}"
-  ) #> "$srcdir/../cmake_out"
-                #--trace-expand \
+  )
 
 
   USING_MAKEPKG_CG="$(systemctl --user -t slice | grep -o makepkg-cg-`id -u`-'[[:digit:]]\+'.slice'[[:space:]]\+'loaded'[[:space:]]\+'active)" || true
