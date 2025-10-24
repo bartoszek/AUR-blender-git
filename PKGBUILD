@@ -156,8 +156,8 @@ build() {
                     )
   fi
 
-
-  CMAKE_CMD=(cmake -B "$srcdir/build" --fresh
+  #default cmake flags
+  _CMAKE_FLAGS+=(
                 -C "${srcdir}/blender/build_files/cmake/config/blender_release.cmake"
                 -G Ninja
                 -DCMAKE_INSTALL_PREFIX=/usr
@@ -175,7 +175,6 @@ build() {
   ) #> "$srcdir/../cmake_out"
                 #--trace-expand \
 
-  MAKE_CMD="make ${MAKEFLAGS:--j1} blender"
 
   USING_MAKEPKG_CG="$(systemctl --user -t slice | grep -o makepkg-cg-`id -u`-'[[:digit:]]\+'.slice'[[:space:]]\+'loaded'[[:space:]]\+'active)" || true
   MAKEPKG_CG_WARNING=$(
@@ -186,11 +185,8 @@ the system has, especially with a high `-j`!
 EOF
   )
   [[ -z "$USING_MAKEPKG_CG" ]] && warning "$MAKEPKG_CG_WARNING"
-  
-  cd blender
-  "${CMAKE_CMD[@]}"
-  cd ../build
-  $MAKE_CMD
+  cmake -S blender -B build -G Ninja "${_CMAKE_FLAGS[@]}"
+  cmake --build build ${MAKEFLAGS:--j1}
 }
 
 package() {
