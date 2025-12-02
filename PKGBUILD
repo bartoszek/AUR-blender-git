@@ -13,8 +13,7 @@
 # Use FRAGMENT=#{commit,tag,brach}=xxx for bisect build
 _fragment="${FRAGMENT:-#branch=main}"
 # revert oneapi:2025.3 conflicts
-_git_revert=(72f098248d41fc92e9275c5f33357117ba66e54e # memmap
-             49414a72f607ccd15f8b71b81edc9aff040d581e) # v3.1 arch
+_git_revert=(49414a72f607ccd15f8b71b81edc9aff040d581e) # v3.1 arch
 
 # Use CUDA_ARCH to build for specific GPU architecture
 # Supports: single arch (sm_52) and list of archs (sm_52;sm_60)
@@ -22,7 +21,7 @@ _git_revert=(72f098248d41fc92e9275c5f33357117ba66e54e # memmap
 [[ -v HIP_ARCH  ]] && _CMAKE_FLAGS+=(-DCYCLES_HIP_BINARIES_ARCH="${HIP_ARCH}")
 
 pkgname=blender-git
-pkgver=5.1.r155450.ga2bc046fec4
+pkgver=5.1.r156657.gb43658f88a0
 pkgrel=1
 pkgdesc="A fully integrated 3D graphics creation suite (development)"
 arch=('i686' 'x86_64')
