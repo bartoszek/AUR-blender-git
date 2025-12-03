@@ -21,7 +21,7 @@ _git_revert=(49414a72f607ccd15f8b71b81edc9aff040d581e) # v3.1 arch
 [[ -v HIP_ARCH  ]] && _CMAKE_FLAGS+=(-DCYCLES_HIP_BINARIES_ARCH="${HIP_ARCH}")
 
 pkgname=blender-git
-pkgver=5.1.r156657.gb43658f88a0
+pkgver=5.1.r156702.g4aa61987346
 pkgrel=1
 pkgdesc="A fully integrated 3D graphics creation suite (development)"
 arch=('i686' 'x86_64')
@@ -73,6 +73,8 @@ prepare() {
   done
   msg2  "revert ${_git_revert[@]}..."
   [[ -v _git_revert ]] && git -C "${srcdir}"/blender revert --no-commit "${_git_revert[@]}"
+# remove deprecated headers in rocm:7
+sed -e '/Geometry.h/d' -e '/Scene.h/d' -i "$srcdir"/blender/intern/cycles/kernel/CMakeLists.txt
 }
 
 build() {
