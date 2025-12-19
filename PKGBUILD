@@ -69,7 +69,7 @@ prepare() {
   mapfile -t patches < <(grep -Po '^.*?(patch|diff)(?=::|$)' < <(printf "${srcdir}/%s\n" ${source[@]}))
   for patch in "${patches[@]}"; do
     msg2  "apply ${patch##*/}..."
-    git apply -v "${patches[@]}"
+    git -C "${srcdir}"/blender apply -v "${patches[@]}"
   done
   msg2  "revert ${_git_revert[@]}..."
   [[ -v _git_revert ]] && git -C "${srcdir}"/blender revert --no-commit "${_git_revert[@]}"
