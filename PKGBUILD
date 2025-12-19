@@ -49,7 +49,7 @@ makedepends+=('cython')
 makedepends+=('vulkan-headers')
 makedepends+=('makepkg-git-lfs-proto') # provides /usr/share/makepkg/source/git-lfs.sh (download_git-lfs, extract_git-lfs)
 provides=('blender')
-conflicts=('blender' 'blender-4.1-bin')
+conflicts=('blender')
 license=('GPL')
 source=("blender::git-lfs+https://projects.blender.org/blender/blender${_fragment}"
   )
