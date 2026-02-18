@@ -27,7 +27,7 @@ pkgdesc="A fully integrated 3D graphics creation suite (development)"
 arch=('i686' 'x86_64')
 url="https://blender.org/"
 options=(!lto)
-depends+=('alembic' 'embree' 'libgl' 'python' 'python-numpy' 'openjpeg2' 'libharu' 'potrace' 'openxr'
+depends+=('alembic' 'ceres-solver' 'eigen' 'embree' 'libgl' 'python' 'python-numpy' 'openjpeg2' 'libharu' 'potrace' 'openxr'
           'ffmpeg' 'fftw' 'openal' 'freetype2' 'libxi' 'manifold' 'openimageio' 'opencolorio'
           'openvdb' 'opensubdiv' 'openshadinglanguage' 'libtiff' 'libpng'
           'python' 'python-zstandard' 'ccache')
