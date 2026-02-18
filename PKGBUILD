@@ -72,7 +72,7 @@ prepare() {
     git -C "${srcdir}"/blender apply -v "${patches[@]}"
   done
   msg2  "revert ${_git_revert[@]}..."
-  [[ -v _git_revert ]] && git -C "${srcdir}"/blender revert --no-commit "${_git_revert[@]}"
+  [[ -v _git_revert ]] && git -C "${srcdir}"/blender revert --no-commit "${_git_revert[@]}" || true
 # remove deprecated headers in rocm:7
 sed -e '/Geometry.h/d' -e '/Scene.h/d' -i "$srcdir"/blender/intern/cycles/kernel/CMakeLists.txt
 }
