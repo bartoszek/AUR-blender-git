@@ -21,7 +21,7 @@ _git_revert=(49414a72f607ccd15f8b71b81edc9aff040d581e) # v3.1 arch
 [[ -v HIP_ARCH  ]] && _CMAKE_FLAGS+=(-DCYCLES_HIP_BINARIES_ARCH="${HIP_ARCH}")
 
 pkgname=blender-git
-pkgver=5.2.r158970.g6c9c1d543c0
+pkgver=5.2.r160573.g65b811645fc6
 pkgrel=1
 pkgdesc="A fully integrated 3D graphics creation suite (development)"
 arch=('i686' 'x86_64')
@@ -52,8 +52,10 @@ provides=('blender')
 conflicts=('blender')
 license=('GPL')
 source=("blender::git-lfs+https://projects.blender.org/blender/blender${_fragment}"
+        blender-fix-oneapi-2026.patch::https://raw.githubusercontent.com/intel/llvm/20a7095cba72ace59f7c8a64711ec4b51f01f030/devops/actions/blender/blender-build/patches/Fix-build.patch
   )
 sha256sums=('SKIP'
+            '154d89a0187476265f3d29fbc3ec696c0e293e27f75a4c633ea81393ab9a1ae2'
   )
 
 pkgver() {
@@ -74,7 +76,9 @@ prepare() {
   msg2  "revert ${_git_revert[@]}..."
   [[ -v _git_revert ]] && git -C "${srcdir}"/blender revert --no-commit -Xours "${_git_revert[@]}" || git -C "${srcdir}"/blender revert --abort
 # remove deprecated headers in rocm:7
-sed -e '/Geometry.h/d' -e '/Scene.h/d' -i "$srcdir"/blender/intern/cycles/kernel/CMakeLists.txt
+  sed -e '/Geometry.h/d' -e '/Scene.h/d' -i "$srcdir"/blender/intern/cycles/kernel/CMakeLists.txt
+# fix build agaisnt oneapi:2026.0.0
+  git -C "$srcdir/blender" apply -v "${srcdir}"/blender-fix-oneapi-2026.patch
 }
 
 build() {

@@ -1,6 +1,6 @@
 pkgbase = blender-git
 	pkgdesc = A fully integrated 3D graphics creation suite (development)
-	pkgver = 5.2.r158970.g6c9c1d543c0
+	pkgver = 5.2.r160573.g65b811645fc6
 	pkgrel = 1
 	url = https://blender.org/
 	arch = i686
@@ -63,6 +63,8 @@ pkgbase = blender-git
 	conflicts = blender
 	options = !lto
 	source = blender::git-lfs+https://projects.blender.org/blender/blender#branch=main
+	source = blender-fix-oneapi-2026.patch::https://raw.githubusercontent.com/intel/llvm/20a7095cba72ace59f7c8a64711ec4b51f01f030/devops/actions/blender/blender-build/patches/Fix-build.patch
 	sha256sums = SKIP
+	sha256sums = 154d89a0187476265f3d29fbc3ec696c0e293e27f75a4c633ea81393ab9a1ae2
 
 pkgname = blender-git
