@@ -73,12 +73,12 @@ prepare() {
     msg2  "apply ${patch##*/}..."
     git -C "${srcdir}"/blender apply -v "${patches[@]}"
   done
+  if [ -v _git_revert ]; then
   msg2  "revert ${_git_revert[@]}..."
   [[ -v _git_revert ]] && git -C "${srcdir}"/blender revert --no-commit -Xours "${_git_revert[@]}" || git -C "${srcdir}"/blender revert --abort
+  fi
 # remove deprecated headers in rocm:7
   sed -e '/Geometry.h/d' -e '/Scene.h/d' -i "$srcdir"/blender/intern/cycles/kernel/CMakeLists.txt
-# fix build agaisnt oneapi:2026.0.0
-  git -C "$srcdir/blender" apply -v "${srcdir}"/blender-fix-oneapi-2026.patch
 }
 
 build() {
